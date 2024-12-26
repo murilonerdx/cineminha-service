@@ -19,7 +19,7 @@ public class Sala {
 	private Integer capacidade;
 	private boolean reservada = Boolean.FALSE;
 
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
 	@JoinColumn(name = "filme_id")
 	private Filme filme;
@@ -43,20 +43,24 @@ public class Sala {
 		this.assentos = assentos;
 	}
 
-	public Integer getCadeiraPorFileira() {
-		return cadeiraPorFileira;
-	}
-
-	public void setCadeiraPorFileira(Integer cadeiraPorFileira) {
-		this.cadeiraPorFileira = cadeiraPorFileira;
+	public Long getId() {
+		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Integer getCapacidade() {
+		return capacidade;
 	}
 
 	public void setCapacidade(Integer capacidade) {
@@ -71,32 +75,28 @@ public class Sala {
 		this.reservada = reservada;
 	}
 
-	public void setFilme(Filme filme) {
-		this.filme = filme;
-	}
-
-	public void setAssentos(List<Assento> assentos) {
-		this.assentos = assentos;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public Integer getCapacidade() {
-		return capacidade;
-	}
-
 	public Filme getFilme() {
 		return filme;
 	}
 
+	public void setFilme(Filme filme) {
+		this.filme = filme;
+	}
+
+	public Integer getCadeiraPorFileira() {
+		return cadeiraPorFileira;
+	}
+
+	public void setCadeiraPorFileira(Integer cadeiraPorFileira) {
+		this.cadeiraPorFileira = cadeiraPorFileira;
+	}
+
 	public List<Assento> getAssentos() {
 		return assentos;
+	}
+
+	public void setAssentos(List<Assento> assentos) {
+		this.assentos = assentos;
 	}
 
 	public Boolean cadeiraReservada(String numero) {

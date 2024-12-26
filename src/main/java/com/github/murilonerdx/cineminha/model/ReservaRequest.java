@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservaRequest {
 	String cpf;
-	String numeroCadeira;
+	List<String> numeroCadeira;
 
 	public String getCpf() {
 		return cpf;
@@ -19,11 +21,11 @@ public class ReservaRequest {
 		this.cpf = cpf;
 	}
 
-	public String getNumeroCadeira() {
+	public List<String> getNumeroCadeira() {
 		return numeroCadeira;
 	}
 
-	public void setNumeroCadeira(String numeroCadeira) {
+	public void setNumeroCadeira(List<String> numeroCadeira) {
 		this.numeroCadeira = numeroCadeira;
 	}
 }

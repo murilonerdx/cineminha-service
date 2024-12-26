@@ -3,15 +3,17 @@ package com.github.murilonerdx.cineminha.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class ReservaResponse {
 	Reserva reserva;
-	Assento assento;
+	List<Assento> assentos;
 
-	public ReservaResponse(Reserva reserva, Assento assento) {
+	public ReservaResponse(Reserva reserva, List<Assento> assentos) {
 		this.reserva = reserva;
-		this.assento = assento;
+		this.assentos = assentos;
 	}
 
 	public Reserva getReserva() {
@@ -22,11 +24,11 @@ public class ReservaResponse {
 		this.reserva = reserva;
 	}
 
-	public Assento getAssento() {
-		return assento;
+	public List<Assento> getAssentos() {
+		return assentos;
 	}
 
-	public void setAssento(Assento assento) {
-		this.assento = assento;
+	public void setAssentos(List<Assento> assentos) {
+		this.assentos = assentos;
 	}
 }

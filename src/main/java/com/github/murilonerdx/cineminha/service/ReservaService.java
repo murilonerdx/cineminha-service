@@ -24,7 +24,7 @@ public class ReservaService {
 	}
 
 	public List<Reserva> findByIdCadeira(Long idCadeira, LocalDate localDate) {
-		return reservaRepository.findByIdCadeiraAndDate(idCadeira, localDate);
+		return reservaRepository.findByIdCadeirasAndDate(List.of(idCadeira), localDate);
 	}
 
 	public Reserva salvar(Reserva reserva) {

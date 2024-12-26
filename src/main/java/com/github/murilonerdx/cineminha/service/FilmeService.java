@@ -33,7 +33,7 @@ public class FilmeService {
 			Filme model = filme.toModel(null);
 			sala.setFilme(model);
 
-			model.setSala(sala);
+			model.setSalas(List.of(sala));
 
 			return filmeRepository.save(model);
 		} else {
@@ -70,7 +70,7 @@ public class FilmeService {
 		if (sala != null && byId.isPresent()) {
 			sala.setReservada(true);
 			sala.setFilme(byId.get());
-			byId.get().setSala(sala);
+			byId.get().setSalas(List.of(sala));
 
 			return filmeRepository.save(byId.get());
 		}else{

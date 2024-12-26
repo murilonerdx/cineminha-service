@@ -1,15 +1,13 @@
 package com.github.murilonerdx.cineminha.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,24 +16,25 @@ public class Reserva {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long idSala;
-	private Long idCadeira;
+	@ElementCollection
+	private List<Long> idCadeiras;
 	private String cpf;
 	private LocalDate date = LocalDate.now();
 
-	public Reserva(Long id, Long idSala, Long idCadeira, String cpf) {
+	public Reserva(Long id, Long idSala, List<Long> idCadeiras, String cpf) {
 		this.id = id;
 		this.idSala = idSala;
-		this.idCadeira = idCadeira;
+		this.idCadeiras = idCadeiras;
 		this.cpf = cpf;
 	}
 
 	public Reserva() {
 	}
 
-	public Reserva(Long id, Long idSala, Long idCadeira, String cpf, LocalDate date) {
+	public Reserva(Long id,Long idSala, List<Long> idCadeiras, String cpf, LocalDate date) {
 		this.id = id;
 		this.idSala = idSala;
-		this.idCadeira = idCadeira;
+		this.idCadeiras = idCadeiras;
 		this.cpf = cpf;
 		this.date = date;
 	}
@@ -56,12 +55,12 @@ public class Reserva {
 		this.idSala = idSala;
 	}
 
-	public Long getIdCadeira() {
-		return idCadeira;
+	public List<Long> getIdCadeiras() {
+		return idCadeiras;
 	}
 
-	public void setIdCadeira(Long idCadeira) {
-		this.idCadeira = idCadeira;
+	public void setIdCadeiras(List<Long> idCadeiras) {
+		this.idCadeiras = idCadeiras;
 	}
 
 	public String getCpf() {

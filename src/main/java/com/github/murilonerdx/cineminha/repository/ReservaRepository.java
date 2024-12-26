@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	public List<Reserva> findByIdSalaAndDate(Long idSala, LocalDate date);
-	public List<Reserva> findByIdCadeiraAndDate(Long idCadeira, LocalDate date);
+	public List<Reserva> findByIdCadeirasAndDate(List<Long> idCadeira, LocalDate date);
 	public List<Reserva> findByCpfAndDate(String cpf, LocalDate date);
 }

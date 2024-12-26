@@ -26,27 +26,27 @@ public class Filme {
 	private Long idadeMinima;
 	private Boolean emCartaz = true;
 
-	@OneToOne(mappedBy = "filme", cascade = CascadeType.MERGE)
-	private Sala sala;
+	@OneToMany(mappedBy="filme", cascade = CascadeType.MERGE)
+	private List<Sala> salas = new ArrayList<>();
 
 	public Filme() {
 	}
 
-	public Filme(Long id, String nome, String sinopse, Long idadeMinima, Boolean emCartaz, Sala sala) {
+	public Filme(Long id, String nome, String sinopse, Long idadeMinima, Boolean emCartaz, List<Sala> salas) {
 		this.id = id;
 		this.nome = nome;
 		this.sinopse = sinopse;
 		this.idadeMinima = idadeMinima;
 		this.emCartaz = emCartaz;
-		this.sala = sala;
+		this.salas = salas;
 	}
 
-	public Filme(Long id, String nome, String sinopse, Long idadeMinima, Sala sala) {
+	public Filme(Long id, String nome, String sinopse, Long idadeMinima, List<Sala> salas) {
 		this.id = id;
 		this.nome = nome;
 		this.sinopse = sinopse;
 		this.idadeMinima = idadeMinima;
-		this.sala = sala;
+		this.salas = salas;
 
 	}
 
@@ -90,11 +90,51 @@ public class Filme {
 		this.emCartaz = emCartaz;
 	}
 
-	public Sala getSala() {
-		return sala;
+	public String getSinopse() {
+		return sinopse;
 	}
 
-	public void setSala(Sala sala) {
-		this.sala = sala;
+	public void setSinopse(String sinopse) {
+		this.sinopse = sinopse;
+	}
+
+	public List<String> getGeneros() {
+		return generos;
+	}
+
+	public void setGeneros(List<String> generos) {
+		this.generos = generos;
+	}
+
+	public Long getDuracao() {
+		return duracao;
+	}
+
+	public void setDuracao(Long duracao) {
+		this.duracao = duracao;
+	}
+
+	public String getClassificacao() {
+		return classificacao;
+	}
+
+	public void setClassificacao(String classificacao) {
+		this.classificacao = classificacao;
+	}
+
+	public String getPosterUrl() {
+		return posterUrl;
+	}
+
+	public void setPosterUrl(String posterUrl) {
+		this.posterUrl = posterUrl;
+	}
+
+	public List<Sala> getSalas() {
+		return salas;
+	}
+
+	public void setSalas(List<Sala> salas) {
+		this.salas = salas;
 	}
 }
