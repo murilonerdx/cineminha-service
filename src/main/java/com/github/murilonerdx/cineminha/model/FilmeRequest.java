@@ -33,7 +33,7 @@ public class FilmeRequest {
 		this.idadeMinima = idadeMinima;
 	}
 
-	public Filme toModel(Long id, Sala sala) throws Exception {
-		return new Filme(id, this.nome, this.descricao, this.idadeMinima, sala);
+	public Filme toModel(Long id) throws Exception {
+		return new Filme(id, this.nome, this.descricao, this.idadeMinima, null);
 	}
 }

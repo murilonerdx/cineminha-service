@@ -24,20 +24,31 @@ public class Sala {
 	@JoinColumn(name = "filme_id")
 	private Filme filme;
 
+	private Integer cadeiraPorFileira;
+
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "sala", cascade = CascadeType.ALL)
-	private List<Cadeira> cadeiras = new ArrayList<>();
+	private List<Assento> assentos = new ArrayList<>();
 
 	public Sala() {
 	}
 
-	public Sala(Long id, String nome, Integer capacidade, boolean reservada, Filme filme, List<Cadeira> cadeiras) {
+	public Sala(Long id, String nome, Integer capacidade, boolean reservada, Filme filme, List<Assento> assentos) {
 		this.id = id;
 		this.nome = nome;
 		this.capacidade = capacidade;
 		this.reservada = reservada;
 		this.filme = filme;
-		this.cadeiras = cadeiras;
+		this.assentos = assentos;
+	}
+
+	public Integer getCadeiraPorFileira() {
+		return cadeiraPorFileira;
+	}
+
+	public void setCadeiraPorFileira(Integer cadeiraPorFileira) {
+		this.cadeiraPorFileira = cadeiraPorFileira;
 	}
 
 	public void setId(Long id) {
@@ -64,8 +75,8 @@ public class Sala {
 		this.filme = filme;
 	}
 
-	public void setCadeiras(List<Cadeira> cadeiras) {
-		this.cadeiras = cadeiras;
+	public void setAssentos(List<Assento> assentos) {
+		this.assentos = assentos;
 	}
 
 	public Long getId() {
@@ -84,22 +95,22 @@ public class Sala {
 		return filme;
 	}
 
-	public List<Cadeira> getCadeiras() {
-		return cadeiras;
+	public List<Assento> getAssentos() {
+		return assentos;
 	}
 
 	public Boolean cadeiraReservada(String numero) {
-		return getCadeiras().stream().anyMatch(cadeira -> cadeira.getNumero().equals(numero) && cadeira.isReservada());
+		return getAssentos().stream().anyMatch(cadeira -> cadeira.getNumero().equals(numero) && cadeira.isReservada());
 	}
 
-	public Optional<Cadeira> getCadeira(String numero) {
-		return getCadeiras()
+	public Optional<Assento> getCadeira(String numero) {
+		return getAssentos()
 				.stream()
 				.filter(cadeira -> cadeira.getNumero().equals(numero))
 				.findFirst();
 	}
 
-	public Cadeira reservarCadeira(String numero) {
+	public Assento reservarCadeira(String numero) {
 		if (!cadeiraReservada(numero)) {
 			return getCadeira(numero).get();
 		} else {

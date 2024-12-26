@@ -4,18 +4,16 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-public class Cadeira {
+public class Assento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String numero;
+	private Integer numero;
+	private String coluna;
+	private String numeroColuna;
 
 	@JsonBackReference // Evita o ciclo
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -25,11 +23,28 @@ public class Cadeira {
 	@Column(nullable = false)
 	private boolean reservada = false;
 
+
+	public String getNumeroColuna() {
+		return numeroColuna;
+	}
+
+	public void setNumeroColuna(String numeroColuna) {
+		this.numeroColuna = numeroColuna;
+	}
+
+	public String getColuna() {
+		return coluna;
+	}
+
+	public void setColuna(String coluna) {
+		this.coluna = coluna;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setNumero(String numero) {
+	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
 
@@ -45,7 +60,7 @@ public class Cadeira {
 		return id;
 	}
 
-	public String getNumero() {
+	public Integer getNumero() {
 		return numero;
 	}
 

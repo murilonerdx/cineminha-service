@@ -30,7 +30,11 @@ public class FilmeService {
 		}
 		if (!sala.isReservada()) {
 			sala.setReservada(true);
-			Filme model = filme.toModel(null, sala);
+			Filme model = filme.toModel(null);
+			sala.setFilme(model);
+
+			model.setSala(sala);
+
 			return filmeRepository.save(model);
 		} else {
 			throw new Exception("Sala já está reservada");
@@ -51,7 +55,7 @@ public class FilmeService {
 	}
 
 	public Filme criarFilmeSemSala(FilmeRequest filmeRequest) throws Exception {
-		Filme model = filmeRequest.toModel(null, null);
+		Filme model = filmeRequest.toModel(null);
 		return filmeRepository.save(model);
 	}
 

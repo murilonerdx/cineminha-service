@@ -1,13 +1,12 @@
 package com.github.murilonerdx.cineminha.service;
 import com.github.murilonerdx.cineminha.SalaNotFound;
-import com.github.murilonerdx.cineminha.model.Cadeira;
+import com.github.murilonerdx.cineminha.model.Assento;
 import com.github.murilonerdx.cineminha.model.Filme;
 import com.github.murilonerdx.cineminha.model.Sala;
 import com.github.murilonerdx.cineminha.model.SalasCapacidade;
 import com.github.murilonerdx.cineminha.repository.CadeiraRepository;
 import com.github.murilonerdx.cineminha.repository.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class SalaService {
 		salaRepository.deleteById(id);
 	}
 
-	public Sala criarSalaComCadeiras(String nomeSala, Integer cadeirasPorFileira, Long id) throws Exception {
+	public Sala criarSalaComCadeiras(String nomeSala, Long id) throws Exception {
 
 		Sala salaEncontrada = salaRepository.findByNome(nomeSala);
 		Filme filme = null;
@@ -45,6 +44,8 @@ public class SalaService {
 		}else{
 			// Criar a sala
 			Integer capacidade = SalasCapacidade.getCapacidadeEnum(nomeSala).getCapacidade();
+			Integer cadeiraPorFileira = SalasCapacidade.getCapacidadeEnum(nomeSala).getCadeiraPorFileira();
+
 			Sala sala = new Sala();
 			sala.setNome(nomeSala);
 			sala.setCapacidade(capacidade);
@@ -57,23 +58,25 @@ public class SalaService {
 			Sala salaSalva = salaRepository.save(sala);
 
 			// Gerar cadeiras
-			int fileiras = (int) Math.ceil((double) capacidade / cadeirasPorFileira); // Número de fileiras
+			int fileiras = (int) Math.ceil((double) capacidade / cadeiraPorFileira); // Número de fileiras
 			char letraInicial = 'A'; // Início das letras
-
+			sala.setCadeiraPorFileira(fileiras);
 			for (int i = 0; i < fileiras; i++) {
 				char fileira = (char) (letraInicial + i); // Letra da fileira
-				for (int j = 1; j <= cadeirasPorFileira; j++) {
-					if ((i * cadeirasPorFileira + j) > capacidade) {
+				for (int j = 1; j <= cadeiraPorFileira; j++) {
+					if ((i * cadeiraPorFileira + j) > capacidade) {
 						break; // Não criar cadeiras além da capacidade
 					}
 
 					// Criar cadeira
-					Cadeira cadeira = new Cadeira();
-					cadeira.setNumero(fileira + String.valueOf(j)); // Ex: A1, A2...
-					cadeira.setSala(salaSalva);
+					Assento assento = new Assento();
+					assento.setNumero(j); // Ex: A1, A2...
+					assento.setColuna(String.valueOf(fileira)); // Ex: A1, A2...
+					assento.setNumeroColuna(fileira + String.valueOf(j));
+					assento.setSala(salaSalva);
 
 					// Salvar cadeira
-					cadeiraRepository.save(cadeira);
+					cadeiraRepository.save(assento);
 				}
 			}
 

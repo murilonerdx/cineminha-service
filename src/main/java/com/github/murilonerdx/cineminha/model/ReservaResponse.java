@@ -1,6 +1,5 @@
 package com.github.murilonerdx.cineminha.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,11 +7,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReservaResponse {
 	Reserva reserva;
-	Cadeira cadeira;
+	Assento assento;
 
-	public ReservaResponse(Reserva reserva, Cadeira cadeira) {
+	public ReservaResponse(Reserva reserva, Assento assento) {
 		this.reserva = reserva;
-		this.cadeira = cadeira;
+		this.assento = assento;
 	}
 
 	public Reserva getReserva() {
@@ -23,11 +22,11 @@ public class ReservaResponse {
 		this.reserva = reserva;
 	}
 
-	public Cadeira getCadeira() {
-		return cadeira;
+	public Assento getAssento() {
+		return assento;
 	}
 
-	public void setCadeira(Cadeira cadeira) {
-		this.cadeira = cadeira;
+	public void setAssento(Assento assento) {
+		this.assento = assento;
 	}
 }

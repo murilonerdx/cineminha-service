@@ -16,7 +16,13 @@ public class Filme {
 	private Long id;
 
 	private String nome;
-	private String descricao;
+	private String sinopse;
+
+	@ElementCollection()
+	private List<String> generos;
+	private Long duracao;
+	private String classificacao;
+	private String posterUrl;
 	private Long idadeMinima;
 	private Boolean emCartaz = true;
 
@@ -26,19 +32,19 @@ public class Filme {
 	public Filme() {
 	}
 
-	public Filme(Long id, String nome, String descricao, Long idadeMinima, Boolean emCartaz, Sala sala) {
+	public Filme(Long id, String nome, String sinopse, Long idadeMinima, Boolean emCartaz, Sala sala) {
 		this.id = id;
 		this.nome = nome;
-		this.descricao = descricao;
+		this.sinopse = sinopse;
 		this.idadeMinima = idadeMinima;
 		this.emCartaz = emCartaz;
 		this.sala = sala;
 	}
 
-	public Filme(Long id, String nome, String descricao, Long idadeMinima, Sala sala) {
+	public Filme(Long id, String nome, String sinopse, Long idadeMinima, Sala sala) {
 		this.id = id;
 		this.nome = nome;
-		this.descricao = descricao;
+		this.sinopse = sinopse;
 		this.idadeMinima = idadeMinima;
 		this.sala = sala;
 
@@ -61,11 +67,11 @@ public class Filme {
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return sinopse;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setDescricao(String sinopse) {
+		this.sinopse = sinopse;
 	}
 
 	public Long getIdadeMinima() {

@@ -45,8 +45,8 @@ public class CinemaController {
 	}
 
 	@PostMapping("/salas")
-	public ResponseEntity<Sala> createSala(@RequestParam String nomeSala, @RequestParam Integer cadeirasPorFileira, @RequestParam(required = false) Long filmeId) throws Exception {
-		Sala sala = salaService.criarSalaComCadeiras(nomeSala, cadeirasPorFileira, filmeId);
+	public ResponseEntity<Sala> createSala(@RequestParam String nomeSala, @RequestParam(required = false) Long filmeId) throws Exception {
+		Sala sala = salaService.criarSalaComCadeiras(nomeSala, filmeId);
 		return ResponseEntity.ok(sala);
 	}
 

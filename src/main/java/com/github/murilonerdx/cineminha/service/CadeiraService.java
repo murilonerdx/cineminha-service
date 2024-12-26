@@ -1,7 +1,6 @@
 package com.github.murilonerdx.cineminha.service;
 
-import com.github.murilonerdx.cineminha.SalaNotFound;
-import com.github.murilonerdx.cineminha.model.Cadeira;
+import com.github.murilonerdx.cineminha.model.Assento;
 import com.github.murilonerdx.cineminha.model.Reserva;
 import com.github.murilonerdx.cineminha.model.ReservaResponse;
 import com.github.murilonerdx.cineminha.model.Sala;
@@ -27,27 +26,27 @@ public class CadeiraService {
 	public ReservaResponse reservarCadeira(String numero, Long idSala, String cpfReserva) throws Exception {
 		Sala sala = salaService.findById(idSala);
 		if(sala.getFilme() != null ){
-			Cadeira cadeira = cadeiraRepository.findBySalaAndNumero(sala, numero);
-			boolean cadeiraJaReservada = cadeira.isReservada();
+			Assento assento = cadeiraRepository.findBySalaAndNumeroColuna(sala, numero);
+			boolean cadeiraJaReservada = assento.isReservada();
 
 			if(cadeiraJaReservada){
 				throw new IllegalStateException("Cadeira já reservada: " + numero);
 			}
 
-			cadeira.setReservada(true);
+			assento.setReservada(true);
 
 			// Reserva a cadeira
-			Cadeira cadeiraReservada = cadeiraRepository.save(cadeira);
-			Reserva reserva = reservaService.salvar(new Reserva(null, sala.getId(), cadeira.getId(), cpfReserva));
+			Assento assentoReservada = cadeiraRepository.save(assento);
+			Reserva reserva = reservaService.salvar(new Reserva(null, sala.getId(), assento.getId(), cpfReserva));
 
-			return new ReservaResponse(reserva, cadeiraReservada);
+			return new ReservaResponse(reserva, assentoReservada);
 		}else{
 			throw new Exception("Essa sala ainda não tem filmes vinculados");
 		}
 	}
 
 	@Transactional
-	public List<Cadeira> findAll() {
+	public List<Assento> findAll() {
 		return cadeiraRepository.findAll();
 	}
 }
