@@ -28,11 +28,10 @@ public class FilmeService {
 		if (sala == null) {
 			throw new Exception("Sala não existe");
 		}
-		if (!sala.isReservada()) {
+		if (!sala.getReservada()) {
 			sala.setReservada(true);
 			Filme model = filme.toModel(null);
-			sala.setFilme(model);
-
+			sala.setFilmes(List.of(model));
 			model.setSalas(List.of(sala));
 
 			return filmeRepository.save(model);
@@ -63,15 +62,14 @@ public class FilmeService {
 		Sala sala = salaService.findById(salaId).orElse(null);
 		Optional<Filme> byId = findById(filmeId);
 
-		if(sala != null && sala.isReservada()){
+		if(sala != null && sala.getReservada()){
 			throw new Exception("Sala já foi reservada!!");
 		}
 
 		if (sala != null && byId.isPresent()) {
 			sala.setReservada(true);
-			sala.setFilme(byId.get());
-			byId.get().setSalas(List.of(sala));
-
+			sala.getFilmes().add(byId.get());
+			byId.get().getSalas().add(sala);
 			return filmeRepository.save(byId.get());
 		}else{
 			throw new Exception("Tente mais tarde!!");

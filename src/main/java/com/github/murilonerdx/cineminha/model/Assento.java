@@ -11,25 +11,40 @@ public class Assento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Integer numero;
-	private String coluna;
-	private String numeroColuna;
+	private Integer numero; // Número do assento
+	private String coluna;  // Coluna na sala (ex.: A, B, C)
+	private Boolean reservada = false;
 
-	@JsonBackReference // Evita o ciclo
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "sala_id")
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "sala_id", nullable = false)
 	private Sala sala;
 
-	@Column(nullable = false)
-	private boolean reservada = false;
-
-
-	public String getNumeroColuna() {
-		return numeroColuna;
+	public Assento() {
 	}
 
-	public void setNumeroColuna(String numeroColuna) {
-		this.numeroColuna = numeroColuna;
+	public Assento(Long id, Integer numero, String coluna, Boolean reservada, Sala sala) {
+		this.id = id;
+		this.numero = numero;
+		this.coluna = coluna;
+		this.reservada = reservada;
+		this.sala = sala;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
 	public String getColuna() {
@@ -40,35 +55,19 @@ public class Assento {
 		this.coluna = coluna;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Boolean getReservada() {
+		return reservada;
 	}
 
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
-
-	public void setSala(Sala sala) {
-		this.sala = sala;
-	}
-
-	public void setReservada(boolean reservada) {
+	public void setReservada(Boolean reservada) {
 		this.reservada = reservada;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public Integer getNumero() {
-		return numero;
 	}
 
 	public Sala getSala() {
 		return sala;
 	}
 
-	public boolean isReservada() {
-		return reservada;
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
 }

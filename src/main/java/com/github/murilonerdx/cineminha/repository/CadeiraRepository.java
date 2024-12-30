@@ -11,6 +11,5 @@ import java.util.List;
 @Repository
 public interface CadeiraRepository extends JpaRepository<Assento, Long> {
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	Assento findBySalaAndNumeroColuna(Sala sala, String numero);
 	List<Assento> findBySala(Sala sala);
 }

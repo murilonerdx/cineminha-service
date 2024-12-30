@@ -2,12 +2,20 @@ package com.github.murilonerdx.cineminha.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 
 public class FilmeRequest {
 	private String nome;
-	private String descricao;
+	private String sinopse;
+	private List<String> generos = new ArrayList<>();
+	private Long duracao; // Em minutos
+	private String classificacao;
+	private String posterUrl;
 	private Long idadeMinima;
+	private Boolean emCartaz = true;
 
 	public String getNome() {
 		return nome;
@@ -17,12 +25,52 @@ public class FilmeRequest {
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getSinopse() {
+		return sinopse;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setSinopse(String sinopse) {
+		this.sinopse = sinopse;
+	}
+
+	public List<String> getGeneros() {
+		return generos;
+	}
+
+	public void setGeneros(List<String> generos) {
+		this.generos = generos;
+	}
+
+	public Long getDuracao() {
+		return duracao;
+	}
+
+	public void setDuracao(Long duracao) {
+		this.duracao = duracao;
+	}
+
+	public String getClassificacao() {
+		return classificacao;
+	}
+
+	public void setClassificacao(String classificacao) {
+		this.classificacao = classificacao;
+	}
+
+	public String getPosterUrl() {
+		return posterUrl;
+	}
+
+	public void setPosterUrl(String posterUrl) {
+		this.posterUrl = posterUrl;
+	}
+
+	public Boolean getEmCartaz() {
+		return emCartaz;
+	}
+
+	public void setEmCartaz(Boolean emCartaz) {
+		this.emCartaz = emCartaz;
 	}
 
 	public Long getIdadeMinima() {
@@ -33,7 +81,18 @@ public class FilmeRequest {
 		this.idadeMinima = idadeMinima;
 	}
 
-	public Filme toModel(Long id) throws Exception {
-		return new Filme(id, this.nome, this.descricao, this.idadeMinima, null);
+	public Filme toModel(Long id) {
+		return new Filme(
+				id,
+				this.nome,
+				this.sinopse,
+				this.generos,
+				this.duracao,
+				this.classificacao,
+				this.posterUrl,
+				this.idadeMinima,
+				this.emCartaz,
+				new ArrayList<>()
+		);
 	}
 }

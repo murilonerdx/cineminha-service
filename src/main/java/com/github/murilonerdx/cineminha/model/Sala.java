@@ -17,31 +17,56 @@ public class Sala {
 	private Long id;
 	private String nome;
 	private Integer capacidade;
-	private boolean reservada = Boolean.FALSE;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JsonIgnore
-	@JoinColumn(name = "filme_id")
-	private Filme filme;
-
 	private Integer cadeiraPorFileira;
+	private Boolean reservada = Boolean.FALSE;
 
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+			name = "sala_filme",
+			joinColumns = @JoinColumn(name = "sala_id"),
+			inverseJoinColumns = @JoinColumn(name = "filme_id")
+	)
+	private List<Filme> filmes = new ArrayList<>();
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "sala", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Assento> assentos = new ArrayList<>();
+
 
 	public Sala() {
 	}
 
-	public Sala(Long id, String nome, Integer capacidade, boolean reservada, Filme filme, List<Assento> assentos) {
+	public Sala(Long id, String nome, Integer capacidade, Integer cadeiraPorFileira, Boolean reservada, List<Filme> filmes, List<Assento> assentos) {
 		this.id = id;
 		this.nome = nome;
 		this.capacidade = capacidade;
+		this.cadeiraPorFileira = cadeiraPorFileira;
 		this.reservada = reservada;
-		this.filme = filme;
+		this.filmes = filmes;
 		this.assentos = assentos;
 	}
+
+
+	public Boolean cadeiraReservada(String numero) {
+		return getAssentos().stream().filter(cadeira -> cadeira != null).anyMatch(cadeira -> cadeira.getNumero().equals(numero) && cadeira.getReservada());
+	}
+
+	public Optional<Assento> getCadeira(String numero) {
+		return getAssentos()
+				.stream()
+				.filter(cadeira -> cadeira.getNumero().equals(numero))
+				.findFirst();
+	}
+
+	public Assento reservarCadeira(String numero) {
+		if (!cadeiraReservada(numero)) {
+			return getCadeira(numero).get();
+		} else {
+			return null;
+		}
+	}
+
 
 	public Long getId() {
 		return id;
@@ -67,28 +92,28 @@ public class Sala {
 		this.capacidade = capacidade;
 	}
 
-	public boolean isReservada() {
-		return reservada;
-	}
-
-	public void setReservada(boolean reservada) {
-		this.reservada = reservada;
-	}
-
-	public Filme getFilme() {
-		return filme;
-	}
-
-	public void setFilme(Filme filme) {
-		this.filme = filme;
-	}
-
 	public Integer getCadeiraPorFileira() {
 		return cadeiraPorFileira;
 	}
 
 	public void setCadeiraPorFileira(Integer cadeiraPorFileira) {
 		this.cadeiraPorFileira = cadeiraPorFileira;
+	}
+
+	public Boolean getReservada() {
+		return reservada;
+	}
+
+	public void setReservada(Boolean reservada) {
+		this.reservada = reservada;
+	}
+
+	public List<Filme> getFilmes() {
+		return filmes;
+	}
+
+	public void setFilmes(List<Filme> filmes) {
+		this.filmes = filmes;
 	}
 
 	public List<Assento> getAssentos() {
@@ -98,25 +123,4 @@ public class Sala {
 	public void setAssentos(List<Assento> assentos) {
 		this.assentos = assentos;
 	}
-
-	public Boolean cadeiraReservada(String numero) {
-		return getAssentos().stream().anyMatch(cadeira -> cadeira.getNumero().equals(numero) && cadeira.isReservada());
-	}
-
-	public Optional<Assento> getCadeira(String numero) {
-		return getAssentos()
-				.stream()
-				.filter(cadeira -> cadeira.getNumero().equals(numero))
-				.findFirst();
-	}
-
-	public Assento reservarCadeira(String numero) {
-		if (!cadeiraReservada(numero)) {
-			return getCadeira(numero).get();
-		} else {
-			return null;
-		}
-	}
-
-
 }

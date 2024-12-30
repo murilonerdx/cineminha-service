@@ -23,34 +23,38 @@ public class CadeiraService {
 		this.salaService = salaService;
 	}
 
+	public Stream<Assento> buscarAssentosFiltrados(List<String> numeros, List<Assento> assentos) {
+		return assentos.stream().filter(assento -> numeros.contains(assento.getColuna() + assento.getNumero()));
+	}
+
 	@Transactional
 	public ReservaResponse reservarCadeira(List<String> numeros, Long idSala, String cpfReserva) throws Exception {
 		Sala sala = salaService.findById(idSala);
-		if(sala.getFilme() != null ){
-			try{
+		if (sala.getFilmes() != null) {
+			try {
 				List<Assento> assentos = cadeiraRepository.findBySala(sala);
 
-				boolean cadeiraJaReservada = assentos.stream().filter(assento -> numeros.contains(assento.getNumeroColuna())).anyMatch(Assento::isReservada);
-				List<Assento> assentoStream = assentos.stream().filter(assento -> numeros.contains(assento.getNumeroColuna())).filter(Assento::isReservada).toList();
+				boolean cadeiraJaReservada = buscarAssentosFiltrados(numeros, assentos).anyMatch(Assento::getReservada);
+				List<Assento> assentosReservados = buscarAssentosFiltrados(numeros, assentos).filter(Assento::getReservada).toList();
 
-				if(cadeiraJaReservada){
-					throw new IllegalStateException("Cadeira já reservada: " + assentoStream);
+				if (cadeiraJaReservada) {
+					throw new IllegalStateException("Cadeira já reservada: " + assentosReservados);
 				}
-				List<Assento> peek = assentos.stream().filter(assento -> numeros.contains(assento.getNumeroColuna())).peek(t -> t.setReservada(true)).toList();
+
+				List<Assento> peek = buscarAssentosFiltrados(numeros, assentos).peek(t -> t.setReservada(true)).toList();
 				List<Assento> assentosReservada = cadeiraRepository.saveAll(peek);
 
 				// Reserva a cadeira
-
 				Reserva reserva = reservaService.salvar(new Reserva(null, sala.getId(), assentosReservada.stream().map(Assento::getId).toList(), cpfReserva));
 
 				return new ReservaResponse(reserva, assentosReservada);
-			}catch(RuntimeException e){
+			} catch (RuntimeException e) {
 				List<Assento> assentos = cadeiraRepository.findBySala(sala);
-				cadeiraRepository.saveAll(assentos.stream().filter(assento -> numeros.contains(assento.getNumeroColuna())).peek(t -> t.setReservada(false)).toList());
+				cadeiraRepository.saveAll(assentos.stream().filter(assento -> numeros.contains(assento.getColuna() + assento.getNumero())).peek(t -> t.setReservada(false)).toList());
 				throw new RuntimeException("Não foi possivel concluir a operação");
 			}
 
-		}else{
+		} else {
 			throw new Exception("Essa sala ainda não tem filmes vinculados");
 		}
 	}

@@ -1,5 +1,6 @@
 package com.github.murilonerdx.cineminha.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,36 +19,34 @@ public class Filme {
 	private String nome;
 	private String sinopse;
 
-	@ElementCollection()
-	private List<String> generos;
-	private Long duracao;
+	@ElementCollection
+	private List<String> generos = new ArrayList<>();
+
+	private Long duracao; // Em minutos
 	private String classificacao;
 	private String posterUrl;
 	private Long idadeMinima;
 	private Boolean emCartaz = true;
 
-	@OneToMany(mappedBy="filme", cascade = CascadeType.MERGE)
+	@JsonManagedReference
+	@ManyToMany(mappedBy = "filmes", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Sala> salas = new ArrayList<>();
 
-	public Filme() {
-	}
 
-	public Filme(Long id, String nome, String sinopse, Long idadeMinima, Boolean emCartaz, List<Sala> salas) {
+	public Filme(Long id, String nome, String sinopse, List<String> generos, Long duracao, String classificacao, String posterUrl, Long idadeMinima, Boolean emCartaz, List<Sala> salas) {
 		this.id = id;
 		this.nome = nome;
 		this.sinopse = sinopse;
+		this.generos = generos;
+		this.duracao = duracao;
+		this.classificacao = classificacao;
+		this.posterUrl = posterUrl;
 		this.idadeMinima = idadeMinima;
 		this.emCartaz = emCartaz;
 		this.salas = salas;
 	}
 
-	public Filme(Long id, String nome, String sinopse, Long idadeMinima, List<Sala> salas) {
-		this.id = id;
-		this.nome = nome;
-		this.sinopse = sinopse;
-		this.idadeMinima = idadeMinima;
-		this.salas = salas;
-
+	public Filme() {
 	}
 
 	public Long getId() {
@@ -64,30 +63,6 @@ public class Filme {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getDescricao() {
-		return sinopse;
-	}
-
-	public void setDescricao(String sinopse) {
-		this.sinopse = sinopse;
-	}
-
-	public Long getIdadeMinima() {
-		return idadeMinima;
-	}
-
-	public void setIdadeMinima(Long idadeMinima) {
-		this.idadeMinima = idadeMinima;
-	}
-
-	public Boolean getEmCartaz() {
-		return emCartaz;
-	}
-
-	public void setEmCartaz(Boolean emCartaz) {
-		this.emCartaz = emCartaz;
 	}
 
 	public String getSinopse() {
@@ -128,6 +103,22 @@ public class Filme {
 
 	public void setPosterUrl(String posterUrl) {
 		this.posterUrl = posterUrl;
+	}
+
+	public Long getIdadeMinima() {
+		return idadeMinima;
+	}
+
+	public void setIdadeMinima(Long idadeMinima) {
+		this.idadeMinima = idadeMinima;
+	}
+
+	public Boolean getEmCartaz() {
+		return emCartaz;
+	}
+
+	public void setEmCartaz(Boolean emCartaz) {
+		this.emCartaz = emCartaz;
 	}
 
 	public List<Sala> getSalas() {

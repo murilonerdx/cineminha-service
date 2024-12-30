@@ -51,7 +51,7 @@ public class SalaService {
 			sala.setCapacidade(capacidade);
 
 			if(filme != null){
-				sala.setFilme(filme);
+				sala.setFilmes(List.of(filme));
 			}
 
 			// Salvar a sala no banco
@@ -72,7 +72,6 @@ public class SalaService {
 					Assento assento = new Assento();
 					assento.setNumero(j); // Ex: A1, A2...
 					assento.setColuna(String.valueOf(fileira)); // Ex: A1, A2...
-					assento.setNumeroColuna(fileira + String.valueOf(j));
 					assento.setSala(salaSalva);
 
 					// Salvar cadeira
