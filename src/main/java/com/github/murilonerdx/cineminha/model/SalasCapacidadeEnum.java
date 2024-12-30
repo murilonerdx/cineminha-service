@@ -3,15 +3,14 @@ package com.github.murilonerdx.cineminha.model;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
-public enum SalasCapacidade {
+public enum SalasCapacidadeEnum {
 	SALA_A1(20, 6), SALA_A2(10,5), SALA_A3(30,5), SALA_A4(15,4), SALA_A5(50,6);
 
 	private final Integer capacidade;
 	private final Integer cadeiraPorFileira;
 
-	SalasCapacidade(Integer capacidade, Integer cadeiraPorFileira) {
+	SalasCapacidadeEnum(Integer capacidade, Integer cadeiraPorFileira) {
 		this.capacidade = capacidade;
 		this.cadeiraPorFileira = cadeiraPorFileira;
 	}
@@ -24,9 +23,9 @@ public enum SalasCapacidade {
 		return cadeiraPorFileira;
 	}
 
-	public static SalasCapacidade getCapacidadeEnum(String nomeSala) throws Exception {
+	public static SalasCapacidadeEnum getCapacidadeEnum(String nomeSala) throws Exception {
 		try {
-			return SalasCapacidade.valueOf(nomeSala);
+			return SalasCapacidadeEnum.valueOf(nomeSala);
 		} catch (IllegalArgumentException e) {
 			throw new Exception(String.format("Nome da sala %s não encontrado", nomeSala));
 		}

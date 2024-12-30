@@ -3,7 +3,7 @@ import com.github.murilonerdx.cineminha.SalaNotFound;
 import com.github.murilonerdx.cineminha.model.Assento;
 import com.github.murilonerdx.cineminha.model.Filme;
 import com.github.murilonerdx.cineminha.model.Sala;
-import com.github.murilonerdx.cineminha.model.SalasCapacidade;
+import com.github.murilonerdx.cineminha.model.SalasCapacidadeEnum;
 import com.github.murilonerdx.cineminha.repository.CadeiraRepository;
 import com.github.murilonerdx.cineminha.repository.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,8 @@ public class SalaService {
 			throw new Exception(String.format("Sala com nome %s já existe verifique outras salas", nomeSala));
 		}else{
 			// Criar a sala
-			Integer capacidade = SalasCapacidade.getCapacidadeEnum(nomeSala).getCapacidade();
-			Integer cadeiraPorFileira = SalasCapacidade.getCapacidadeEnum(nomeSala).getCadeiraPorFileira();
+			Integer capacidade = SalasCapacidadeEnum.getCapacidadeEnum(nomeSala).getCapacidade();
+			Integer cadeiraPorFileira = SalasCapacidadeEnum.getCapacidadeEnum(nomeSala).getCadeiraPorFileira();
 
 			Sala sala = new Sala();
 			sala.setNome(nomeSala);
