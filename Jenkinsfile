@@ -1,52 +1,30 @@
 // Exemplo de Jenkinsfile
 pipeline {
-    agent any
 
-    environment {
-        // Definir variáveis de ambiente, se necessário
-        DOCKER_IMAGE = 'cineminha:spring-boot'
-    }
+       stages {
+           stage('Checkout') {
+               steps {
+                   script {
+                       checkout scm
+                   }
+               }
+           }
 
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    sh 'chmod +x ./mvnw'
-                    sh './mvnw clean package -DskipTests'
-                }
-            }
-        }
+           stage('Build and Test') {
+               steps {
+                   script {
+                       sh 'mvn clean package'
+                   }
+               }
+           }
 
-        stage('Test') {
-            steps {
-                script {
-                    echo 'Executando testes...'
-                    // Rodar os testes
-                    sh './mvnw test'
-                }
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    echo 'Criando a imagem Docker...'
-                    // Construir a imagem Docker
-                    sh 'docker build -t $DOCKER_IMAGE .'
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    echo 'Deploy da aplicação...'
-                    // Executar o deploy, pode ser no servidor local ou outro
-                    sh 'docker run -d -p 8080:8080 $DOCKER_IMAGE'
-                }
-            }
-        }
-    }
+           stage('Build Docker Image') {
+               steps {
+                   script {
+                       sh 'docker build -t your-docker-repo/your-app:latest .'
+                   }
+               }
+           }
 
     post {
         always {
