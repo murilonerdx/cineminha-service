@@ -14,11 +14,11 @@ pipeline {
         stage('Variables') {
                 steps {
                     // Executa o build do projeto usando o mvnw
-                    echo '${DB_HOST}'
-                    echo '${DB_PORT}'
-                    echo '${DB_NAME}'
-                    echo '${DB_USER}'
-                    echo '${DB_PASSWORD}'
+                    echo ${DB_HOST}
+                    echo ${DB_PORT}
+                    echo ${DB_NAME}
+                    echo ${DB_USER}
+                    echo ${DB_PASSWORD}
                 }
             }
         stage('Build') {
