@@ -1,34 +1,21 @@
-// Exemplo de Jenkinsfile
 pipeline {
+    agent any
 
-       stages {
-           stage('Checkout') {
-               steps {
-                   script {
-                       checkout scm
-                   }
-               }
-           }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
 
-           stage('Build and Test') {
-               steps {
-                   script {
-                       sh 'mvn clean package'
-                   }
-               }
-           }
-
-           stage('Build Docker Image') {
-               steps {
-                   script {
-                       sh 'docker build -t your-docker-repo/your-app:latest .'
-                   }
-               }
-           }
-
-    post {
-        always {
-            echo 'Pipeline finalizada.'
+        stage('Build and Test') {
+            steps {
+                script {
+                    sh 'mvn clean package'
+                }
+            }
         }
     }
 }
