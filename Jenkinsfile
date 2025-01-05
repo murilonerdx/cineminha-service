@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Executa o build do projeto usando o mvnw
+                sh 'chmod +x mvnw'
                 sh './mvnw clean install'
             }
         }
