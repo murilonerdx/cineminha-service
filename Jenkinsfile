@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        // Variáveis de ambiente podem ser configuradas aqui, se necessário
-        MAVEN_HOME = tool name: 'Maven 3', type: 'Tool'
-    }
-
     stages {
         stage('Build') {
             steps {
