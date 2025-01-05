@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+       SPRING_PROFILES_ACTIVE = 'prod'
         DB_HOST = "${env.DB_HOST}"
         DB_PORT = "${env.DB_PORT}"
         DB_NAME = "${env.DB_NAME}"
@@ -14,7 +15,7 @@ pipeline {
             steps {
                 // Executa o build do projeto usando o mvnw
                 sh 'chmod +x mvnw'
-                sh './mvnw clean install'
+                sh './mvnw clean install -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}'
             }
         }
 
@@ -22,7 +23,7 @@ pipeline {
             steps {
                 // Subir o serviço backend localmente, permitindo o acesso no localhost
                 echo 'Iniciando o serviço Spring Boot em modo produção...'
-                sh './mvnw cineminha-service:run -Dspring.profiles.active=prod'
+                sh './mvnw clean install -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}'
             }
         }
 
