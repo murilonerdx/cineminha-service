@@ -11,8 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo 'Build da aplicação...'
-                    // Rodar o build do Spring Boot
+                    sh 'chmod +x ./mvnw'
                     sh './mvnw clean package -DskipTests'
                 }
             }
